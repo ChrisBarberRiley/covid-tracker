@@ -1,7 +1,10 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
+import Country from './Country';
 import Global from './Global';
+import Header from './Header';
 import Loading from './Loading';
 
 function App() {
@@ -19,7 +22,19 @@ function App() {
     fetchData();
   }, []);
 
-  return <>{loading ? <Loading /> : <Global data={data} />}</>;
+  return (
+    <>
+      <Header />
+      <Router>
+        {loading ? <Loading /> : <Global data={data} />}
+        <Switch>
+          <Route path='/:country'>
+            {loading ? <Loading /> : <Country data={data} />}
+          </Route>
+        </Switch>
+      </Router>
+    </>
+  );
 }
 
 export default App;
